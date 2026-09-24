@@ -1,0 +1,118 @@
+:root {
+  --paper: #e7d2b2;
+  --paper-deep: #c7964c;
+  --ink: #167944;
+  --muted: #788079;
+  --green: #2f604b;
+  --green-bright: #98cf88;
+  --coral: #e8795d;
+  --yellow: #8f753d;
+  --line: rgba(73, 212, 138, 0.14);
+  font-family: 'Manrope', sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--paper);
+  background-image: radial-gradient(rgba(38, 53, 45, .08) .65px, transparent .65px);
+  background-size: 8px 8px;
+}
+
+button { font: inherit; }
+
+.game-shell { max-width: 1440px; margin: 0 auto; padding: 34px 5.5vw 42px; }
+
+.topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 56px; }
+.brand { display: inline-flex; align-items: center; gap: 13px; color: var(--ink); text-decoration: none; }
+.brand-mark { display: grid; width: 37px; height: 37px; place-items: center; border-radius: 50%; color: var(--paper); background: var(--coral); font-size: 18px; transform: rotate(-15deg); }
+.brand strong, .brand small { display: block; }
+.brand strong { font-size: 16px; letter-spacing: .04em; }
+.brand small { margin-top: 2px; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .16em; }
+.topbar-note { color: var(--muted); font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+.pulse-dot { display: inline-block; width: 7px; height: 7px; margin-right: 7px; border-radius: 50%; background: var(--green-bright); box-shadow: 0 0 0 5px rgba(120, 165, 106, .16); }
+
+.game-layout { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: clamp(28px, 5vw, 82px); align-items: start; }
+.score-strip { display: flex; align-items: center; gap: clamp(22px, 4vw, 58px); height: 60px; margin-bottom: 16px; }
+.score-block strong { display: block; margin-top: 5px; font-family: 'DM Mono', monospace; font-size: 25px; font-weight: 500; letter-spacing: .08em; }
+.adventure-hud { display: flex; flex-wrap: wrap; gap: 9px 18px; align-items: center; min-height: 30px; margin: -3px 0 12px; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .04em; text-transform: uppercase; }
+.adventure-hud span { padding-right: 18px; border-right: 1px solid var(--line); }
+.adventure-hud span:last-child { border-right: 0; }
+.adventure-hud b { color: var(--green); font-weight: 500; }
+.eyebrow, .section-label { color: var(--muted); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
+.best-score { opacity: .62; }
+.speed-meter { width: 145px; margin-left: auto; }
+.meter-track { height: 4px; margin-top: 12px; overflow: hidden; border-radius: 4px; background: var(--paper-deep); }
+.meter-track span { display: block; width: 12%; height: 100%; border-radius: inherit; background: var(--coral); transition: width .3s ease; }
+.icon-button { display: grid; width: 40px; height: 40px; padding: 0; place-items: center; border: 1px solid var(--line); border-radius: 50%; color: var(--green); background: transparent; cursor: pointer; transition: .2s ease; }
+.icon-button:not(:disabled):hover { color: var(--paper); background: var(--green); border-color: var(--green); }
+.icon-button:disabled { cursor: default; opacity: .3; }
+.pause-icon { font-family: 'DM Mono', monospace; font-size: 14px; letter-spacing: -3px; }
+
+.canvas-frame { position: relative; overflow: hidden; border: 1px solid rgba(38, 53, 45, .08); border-radius: 4px; box-shadow: 0 22px 50px rgba(57, 64, 52, .1); background: #d9e7d4; aspect-ratio: 16 / 9; }
+canvas { display: block; width: 100%; height: 100%; }
+.canvas-vignette { position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 90px rgba(48, 77, 54, .12); }
+.game-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 8% 10%; background: rgba(227, 235, 218, .68); backdrop-filter: blur(3px); transition: opacity .25s ease, visibility .25s ease; }
+.game-overlay.is-hidden { visibility: hidden; opacity: 0; pointer-events: none; }
+.overlay-kicker { margin-bottom: 14px; color: var(--coral); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .18em; }
+.game-overlay h1, .game-overlay h2 { margin: 0; color: var(--green); font-size: clamp(30px, 4.1vw, 56px); line-height: 1.06; letter-spacing: -.04em; }
+.game-overlay h1 em { color: var(--coral); font-style: normal; }
+.game-overlay h2 { font-size: clamp(26px, 3.4vw, 45px); }
+.game-overlay h2 span { color: var(--coral); }
+.game-overlay p { max-width: 370px; margin: 18px 0 25px; color: #5f6f64; font-size: 13px; line-height: 1.8; }
+.primary-button { display: flex; align-items: center; gap: 40px; min-width: 169px; padding: 13px 14px 13px 18px; border: 0; border-radius: 3px; color: var(--paper); background: var(--green); cursor: pointer; font-size: 12px; font-weight: 700; letter-spacing: .05em; box-shadow: 0 8px 18px rgba(47, 96, 75, .18); transition: transform .2s ease, background .2s ease; }
+.primary-button b { display: grid; width: 24px; height: 24px; place-items: center; border-radius: 50%; color: var(--green); background: var(--yellow); font-size: 17px; }
+.primary-button:hover { background: #214837; transform: translateY(-2px); }
+.controls-hint { display: flex; align-items: center; gap: 7px; margin-top: 19px; color: var(--muted); font-size: 10px; }
+kbd, .guide-key { padding: 4px 6px; border: 1px solid rgba(38, 53, 45, .18); border-radius: 2px; color: var(--green); background: rgba(245, 239, 230, .55); font-family: 'DM Mono', monospace; font-size: 9px; }
+
+.info-panel { min-height: 540px; padding-top: 13px; }
+.intro-copy h2 { margin: 18px 0 18px; color: var(--green); font-size: 25px; line-height: 1.28; letter-spacing: -.04em; }
+.intro-copy h2 span { color: var(--coral); }
+.intro-copy p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.9; }
+.panel-rule { height: 1px; margin: 40px 0 31px; background: var(--line); }
+.guide-section { display: grid; gap: 11px; }
+.guide-section .section-label { margin-bottom: 5px; }
+.guide-row { display: flex; align-items: center; gap: 15px; color: #58655d; font-size: 11px; }
+.guide-key { min-width: 50px; text-align: center; }
+.panel-quote { position: relative; margin-top: 67px; padding: 20px 20px 18px; border-left: 2px solid var(--yellow); background: rgba(233, 223, 208, .48); }
+.quote-mark { position: absolute; top: 8px; left: -2px; color: var(--yellow); font-family: Georgia, serif; font-size: 37px; line-height: 1; transform: translateX(-50%); }
+.panel-quote p { margin: 0 0 13px; color: var(--green); font-size: 12px; font-style: italic; line-height: 1.7; }
+.panel-quote small { color: var(--muted); font-family: 'DM Mono', monospace; font-size: 9px; }
+.panel-footer { display: flex; justify-content: space-between; margin-top: 42px; color: #9ca29c; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; }
+.mobile-controls { display: none; }
+
+@media (max-width: 900px) {
+  .game-shell { padding: 25px 4vw 34px; }
+  .topbar { margin-bottom: 32px; }
+  .game-layout { display: block; }
+  .info-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 25px 35px; min-height: auto; margin-top: 34px; }
+  .panel-rule { display: none; }
+  .panel-quote { margin-top: 0; }
+  .panel-footer { grid-column: 1 / -1; margin-top: 0; }
+}
+
+@media (max-width: 560px) {
+  .topbar-note { display: none; }
+  .score-strip { gap: 15px; }
+  .score-block strong { font-size: 19px; }
+  .speed-meter { width: 80px; }
+  .icon-button { width: 35px; height: 35px; }
+  .game-overlay { padding: 9%; }
+  .game-overlay p { max-width: 280px; font-size: 11px; }
+  .mobile-controls { display: flex; justify-content: space-between; margin-top: 13px; }
+  .touch-button { display: flex; align-items: center; justify-content: center; gap: 5px; width: 32%; height: 46px; border: 1px solid var(--line); border-radius: 3px; color: var(--green); background: rgba(233, 223, 208, .6); cursor: pointer; }
+  .touch-button span { font-size: 18px; }
+  .touch-button small { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; }
+  .touch-button.secondary { opacity: .7; }
+  .adventure-hud { gap: 7px 10px; margin-bottom: 8px; font-size: 8px; }
+  .adventure-hud span { padding-right: 10px; }
+  .info-panel { display: block; }
+  .guide-section { margin-top: 31px; }
+  .panel-quote { margin-top: 34px; }
+  .panel-footer { margin-top: 30px; }
+}

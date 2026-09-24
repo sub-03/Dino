@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5efe6">
+  <title>走過的路 | Sprout Sprint</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="芽芽奔跑首頁">
+        <span class="brand-mark">✦</span>
+        <span>
+          <strong>走過的路</strong>
+          <small>SPROUT SPRINT</small>
+        </span>
+      </a>
+      <div class="topbar-note"><span class="pulse-dot"></span> 雨過天晴</div>
+    </header>
+
+    <section class="game-layout">
+      <div class="game-column">
+        <div class="score-strip">
+          <div class="score-block">
+            <span class="eyebrow">距離</span>
+            <strong id="score">00000</strong>
+          </div>
+          <div class="score-block best-score">
+            <span class="eyebrow">最佳紀錄</span>
+            <strong id="best-score">00000</strong>
+          </div>
+          <div class="speed-meter" aria-label="奔跑速度">
+            <span class="eyebrow">節奏</span>
+            <div class="meter-track"><span id="speed-meter-fill"></span></div>
+          </div>
+          <button class="icon-button" id="pause-button" type="button" aria-label="暫停遊戲" title="暫停遊戲" disabled>
+            <span class="pause-icon">Ⅱ</span>
+          </button>
+        </div>
+        <div class="adventure-hud">
+          <span id="score-label">距離 00000 / 500</span>
+          <span>生命 <b id="lives">♥♥♥</b></span>
+          <span>種子 <b id="collect-count">0 / 20</b></span>
+          <span>道具 <b id="powerup-status">無</b></span>
+        </div>
+
+        <div class="canvas-frame">
+          <canvas id="game-canvas" width="960" height="540" aria-label="芽芽奔跑遊戲畫面"></canvas>
+          <div class="canvas-vignette"></div>
+          <div class="game-overlay" id="start-overlay">
+            <div class="overlay-kicker">A LITTLE LEAF, A LONG WAY</div>
+            <h1>雨後<br><em>微光</em></h1>
+            <p>幫助小天使跳過石頭、荊棘與飛行障礙，收集種子並完成旅程目標。</p>
+            <button class="primary-button" id="start-button" type="button"><span>開始奔跑</span><b>→</b></button>
+            <div class="controls-hint"><kbd>SPACE</kbd><span>跳躍</span><kbd>↓</kbd><span>滑行</span></div>
+          </div>
+          <div class="game-overlay is-hidden" id="pause-overlay">
+            <div class="overlay-kicker">TIME TO BREATHE</div>
+            <h2>先歇一會兒</h2>
+            <p>小天使在原地等你。</p>
+            <button class="primary-button" id="resume-button" type="button"><span>繼續奔跑</span><b>→</b></button>
+          </div>
+          <div class="game-overlay is-hidden" id="gameover-overlay">
+            <div class="overlay-kicker">THE MEADOW GOES ON</div>
+            <h2>這次跑了 <span id="final-score">0</span> 步</h2>
+            <p id="gameover-message">每一次落地，都是下一次起跑的起點。</p>
+            <button class="primary-button" id="restart-button" type="button"><span>再來一次</span><b>↻</b></button>
+            <div class="controls-hint"><kbd>R</kbd><span>快速重新開始</span></div>
+          </div>
+        </div>
+
+        <div class="mobile-controls" aria-label="觸控控制">
+          <button class="touch-button" id="jump-button" type="button"><span>↑</span><small>跳躍 / 二段跳</small></button>
+          <button class="touch-button slide-button" id="slide-button" type="button"><span>↓</span><small>滑行</small></button>
+          <button class="touch-button secondary" id="mobile-pause-button" type="button" disabled><span>Ⅱ</span><small>暫停</small></button>
+        </div>
+      </div>
+
+      <aside class="info-panel">
+        <div class="panel-section intro-copy">
+          <span class="section-label">今日的旅程</span>
+          <h2>每一片葉子，<br><span>都知道風的方向。</span></h2>
+          <p>小天使要把一顆小小的種子送到山的另一邊。完成目標後，會解鎖新的場景與角色。</p>
+        </div>
+        <div class="panel-rule"></div>
+        <div class="panel-section guide-section">
+          <span class="section-label">奔跑指南</span>
+          <div class="guide-row"><span class="guide-key">SPACE</span><span>跳躍 / 二段跳</span></div>
+          <div class="guide-row"><span class="guide-key">↓</span><span>滑行閃過飛行障礙</span></div>
+          <div class="guide-row"><span class="guide-key">P</span><span>暫停 / 繼續</span></div>
+          <div class="guide-row"><span class="guide-key">目標</span><span id="target-status">0m · 0 顆種子</span></div>
+          <div class="guide-row"><span class="guide-key">解鎖</span><span id="unlock-status">500 分解鎖黃昏草原</span></div>
+          <div class="guide-row"><span class="guide-key">R</span><span>重新開始</span></div>
+        </div>
+        <div class="panel-quote">
+          <span class="quote-mark">“</span>
+          <p>慢慢來也沒關係，重要的是腳下仍有路。</p>
+          <small>— 草原上的風</small>
+        </div>
+        <div class="panel-footer"><span>SPRINT / 001</span><span>◒</span></div>
+      </aside>
+    </section>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
