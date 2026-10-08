@@ -27,6 +27,9 @@ const GROUND_Y = 410;
 const PLAYER_X = 150;
 const PLAYER_WIDTH = 54;
 const PLAYER_HEIGHT = 67;
+const PLAYER_SPRITE_FRAME_COUNT = 5;
+const PLAYER_SPRITE_FRAME_WIDTH = 124;
+const PLAYER_SPRITE_FRAME_HEIGHT = 199;
 const GRAVITY = 1650;
 const JUMP_VELOCITY = -650;
 const MAX_LIVES = 3;
@@ -56,6 +59,8 @@ let eventType = 'clear';
 let eventTimer = 0;
 let unlockedScene = bestScore >= 500 ? 1 : 0;
 let unlockedCharacter = bestScore >= 800 ? 1 : 0;
+const playerSprite = new Image();
+playerSprite.src = './wani2-sheet.png';
 const player = { y: GROUND_Y - PLAYER_HEIGHT, velocityY: 0, grounded: true, runTime: 0 };
 
 bestScoreElement.textContent = formatScore(bestScore);
@@ -367,21 +372,41 @@ function drawPlayer() {
   }
   context.fillStyle = 'rgba(38, 53, 45, .18)';
   context.beginPath(); context.ellipse(27, PLAYER_HEIGHT + 4, 30, 6, 0, 0, Math.PI * 2); context.fill();
-  context.fillStyle = '#f3b48b';
-  context.beginPath(); context.ellipse(30, 35, 23, 29, -.08, 0, Math.PI * 2); context.fill();
-  context.fillStyle = unlockedCharacter ? '#765c82' : '#df765a';
-  context.beginPath(); context.moveTo(10, 24); context.quadraticCurveTo(8, 2, 30, 1); context.quadraticCurveTo(52, 4, 51, 27); context.quadraticCurveTo(42, 14, 28, 16); context.quadraticCurveTo(17, 17, 10, 24); context.fill();
-  context.fillStyle = unlockedCharacter ? '#6db6c5' : '#f5c96a';
-  context.beginPath(); context.ellipse(28, 9, 13, 7, -.15, 0, Math.PI * 2); context.fill();
-  context.fillStyle = '#26352d';
-  context.beginPath(); context.arc(42, 32, 3, 0, Math.PI * 2); context.fill();
-  context.strokeStyle = '#26352d'; context.lineWidth = 2; context.lineCap = 'round';
-  context.beginPath(); context.arc(45, 40, 5, 0, Math.PI * .7); context.stroke();
-  context.strokeStyle = unlockedCharacter ? '#765c82' : '#df765a'; context.lineWidth = 6;
-  context.beginPath(); context.moveTo(14, 39); context.lineTo(2, 48); context.stroke();
-  context.strokeStyle = '#2f604b'; context.lineWidth = 7;
-  context.beginPath(); context.moveTo(20, 57); context.lineTo(15 + legSwing, 67); context.stroke();
-  context.beginPath(); context.moveTo(39, 57); context.lineTo(44 - legSwing, 67); context.stroke();
+  if (playerSprite.complete && playerSprite.naturalWidth > 0) {
+    const spriteWidth = isSliding ? 74 : 66;
+    const spriteHeight = isSliding ? 44 : 66;
+    const runFrameSpeed = 1.7;
+    const frameIndex = isSliding ? 0 : player.grounded ? Math.floor((player.runTime * runFrameSpeed) % PLAYER_SPRITE_FRAME_COUNT) : 2;
+    const sourceX = frameIndex * PLAYER_SPRITE_FRAME_WIDTH;
+    const sourceY = 0;
+    context.drawImage(
+      playerSprite,
+      sourceX,
+      sourceY,
+      PLAYER_SPRITE_FRAME_WIDTH,
+      PLAYER_SPRITE_FRAME_HEIGHT,
+      -6,
+      -4,
+      spriteWidth,
+      spriteHeight
+    );
+  } else {
+    context.fillStyle = '#f3b48b';
+    context.beginPath(); context.ellipse(30, 35, 23, 29, -.08, 0, Math.PI * 2); context.fill();
+    context.fillStyle = unlockedCharacter ? '#765c82' : '#df765a';
+    context.beginPath(); context.moveTo(10, 24); context.quadraticCurveTo(8, 2, 30, 1); context.quadraticCurveTo(52, 4, 51, 27); context.quadraticCurveTo(42, 14, 28, 16); context.quadraticCurveTo(17, 17, 10, 24); context.fill();
+    context.fillStyle = unlockedCharacter ? '#6db6c5' : '#f5c96a';
+    context.beginPath(); context.ellipse(28, 9, 13, 7, -.15, 0, Math.PI * 2); context.fill();
+    context.fillStyle = '#26352d';
+    context.beginPath(); context.arc(42, 32, 3, 0, Math.PI * 2); context.fill();
+    context.strokeStyle = '#26352d'; context.lineWidth = 2; context.lineCap = 'round';
+    context.beginPath(); context.arc(45, 40, 5, 0, Math.PI * .7); context.stroke();
+    context.strokeStyle = unlockedCharacter ? '#765c82' : '#df765a'; context.lineWidth = 6;
+    context.beginPath(); context.moveTo(14, 39); context.lineTo(2, 48); context.stroke();
+    context.strokeStyle = '#2f604b'; context.lineWidth = 7;
+    context.beginPath(); context.moveTo(20, 57); context.lineTo(15 + legSwing, 67); context.stroke();
+    context.beginPath(); context.moveTo(39, 57); context.lineTo(44 - legSwing, 67); context.stroke();
+  }
   context.restore();
 }
 
