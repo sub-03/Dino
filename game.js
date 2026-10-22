@@ -20,6 +20,9 @@ const collectElement = document.querySelector('#collect-count');
 const targetElement = document.querySelector('#target-status');
 const powerupElement = document.querySelector('#powerup-status');
 const unlockElement = document.querySelector('#unlock-status');
+const coinSound = document.querySelector('#coin-sound');
+const jumpSound = document.querySelector('#jump-sound');
+const gameoverSound = document.querySelector('#gameover-sound');
 
 const WORLD_WIDTH = 960;
 const WORLD_HEIGHT = 540;
@@ -116,6 +119,8 @@ function startGame() {
 
 function endGame() {
   gameState = 'gameover';
+  gameoverSound.currentTime = 0;
+  gameoverSound.play().catch((error) => console.error('Unable to play game-over sound:', error));
   const finalValue = Math.floor(score);
   if (finalValue > bestScore) {
     bestScore = finalValue;
@@ -164,6 +169,8 @@ function jump() {
     return;
   }
   if (gameState !== 'running' || isSliding || (!player.grounded && jumpCount >= 2)) return;
+  jumpSound.currentTime = 0;
+  jumpSound.play().catch((error) => console.error('Unable to play jump sound:', error));
   player.velocityY = JUMP_VELOCITY;
   player.grounded = false;
   jumpCount += 1;
@@ -260,6 +267,8 @@ function collectItems(playerBox) {
   };
   collectibles = collectibles.filter((item) => {
     if (!collect(item)) return true;
+    coinSound.currentTime = 0;
+    coinSound.play().catch((error) => console.error('Unable to play coin sound:', error));
     if (item.type === 'seed') seeds += 1;
     score += item.type === 'star' ? 25 : 10;
     burstParticles(item.x, item.y, item.type === 'star' ? '#f5c96a' : '#98cf88', 8);
